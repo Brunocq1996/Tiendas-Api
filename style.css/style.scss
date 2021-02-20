@@ -1,0 +1,17 @@
+$colorFondo:rgb(12, 87, 12);
+$blanco:white;
+*{
+    box-sizing: border-box;
+}
+html, body{
+    margin: 0px;
+    height:100%;
+}
+header{
+    background-color:$colorFondo;
+    display: flex;
+    justify-content: center;
+    h1{
+        color:$blanco
+    }
+}
