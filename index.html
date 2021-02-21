@@ -1,24 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/styles.css">
+
 </head>
+
 <body>
     <header>
         <h1>Tiendas</h1>
     </header>
     <main>
-        <h1>Elije el método para realizar AJAX:</h1>
-        <div id="botonesIniciales">
-            <button id="XHR"><strong>XHR</strong></button>
-            <button id="Fetch"><strong>Fetch</strong></button>
-            <button id="jQuery"><strong>jQuery</strong></button>
+        <div id="pantallaPrincipal">
+            <h1>Elije el método para realizar AJAX:</h1>
+            <div id="botonesIniciales">
+                <button id="XHR"><strong>XHR</strong></button>
+                <button id="Fetch"><strong>Fetch</strong></button>
+                <button id="jQuery"><strong>jQuery</strong></button>
+            </div>
+        </div>
+        <div id="spinner" display><img src="./images/sipinner.png" alt=""></div>
+        <div id="buscadorLista">
+            <div><span>Nueva lista</span><div>buscar</div></div>
+            <div id="lista"></div>
         </div>
     </main>
-    <script src="./script/script.js"></script>
+    <script src="./js/script.js"></script>
 </body>
+
 </html>

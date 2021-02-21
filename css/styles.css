@@ -12,11 +12,16 @@ header {
   header h1 {
     color: whitesmoke; }
 
+body {
+  display: flex;
+  flex-direction: column; }
+
 main {
+  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  border: 1px black solid;
   padding-bottom: 50px; }
   main h1 {
     color: #23470b; }
@@ -64,3 +69,16 @@ main {
         color: #dceccc; }
       main #botonesIniciales #jQuery:focus {
         outline: none; }
+
+#spinner {
+  display: none;
+  width: 200px;
+  height: 200px; }
+  #spinner img {
+    animation: cargar 1s linear infinite; }
+
+@keyframes cargar {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(-360deg); } }

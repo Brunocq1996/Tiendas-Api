@@ -28,6 +28,7 @@ html, body{
     margin: 0px;
     height:100%;
 }
+
 header{
     background-color:$colorFondo;
     display: flex;
@@ -36,11 +37,16 @@ header{
         color:$blanco
     }    
 }
-main{
+body{
     display: flex;
     flex-direction: column;
+}
+main{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    border:1px black solid;
     padding-bottom: 50px;
     h1{
         color:$verdeOscuro;
@@ -63,3 +69,44 @@ main{
         }
     }
 }
+#spinner{
+    display:none;
+    width: 200px;
+    height: 200px;    
+    img{
+        animation: cargar 1s linear infinite;
+    }
+    
+}
+@keyframes cargar{
+    0% {
+        transform: rotate(0deg)
+    }
+      
+    100% {
+        transform: rotate(-360deg)
+    }
+
+}
+// @keyframes cargar{
+//     0% {
+//         transform: rotate(0deg)
+//     }
+      
+//     20% {
+//         transform: rotate(-360deg)
+//     }
+      
+//     40% {
+//         transform: rotate(-720deg)
+//     }
+      
+//     60% {
+//         transform: rotate(-900deg)
+//     }
+      
+//     100% {
+//         transform: rotate(-1080deg)
+//     }
+      
+// }
