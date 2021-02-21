@@ -11,3 +11,56 @@ header {
   justify-content: center; }
   header h1 {
     color: whitesmoke; }
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px black solid;
+  padding-bottom: 50px; }
+  main h1 {
+    color: #23470b; }
+  main #botonesIniciales {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 150px; }
+    main #botonesIniciales #XHR {
+      padding: 7px 200px;
+      border: solid 1px #23470b;
+      color: #23470b;
+      background-color: #dceccc;
+      border-radius: 7px; }
+      main #botonesIniciales #XHR:hover {
+        background-color: #bce2a3; }
+      main #botonesIniciales #XHR:active {
+        background-color: #23470b;
+        color: #dceccc; }
+      main #botonesIniciales #XHR:focus {
+        outline: none; }
+    main #botonesIniciales #Fetch {
+      padding: 7px 200px;
+      border: solid 1px #23470b;
+      color: #23470b;
+      background-color: #dceccc;
+      border-radius: 7px; }
+      main #botonesIniciales #Fetch:hover {
+        background-color: #bce2a3; }
+      main #botonesIniciales #Fetch:active {
+        background-color: #23470b;
+        color: #dceccc; }
+      main #botonesIniciales #Fetch:focus {
+        outline: none; }
+    main #botonesIniciales #jQuery {
+      padding: 7px 200px;
+      border: solid 1px #23470b;
+      color: #23470b;
+      background-color: #dceccc;
+      border-radius: 7px; }
+      main #botonesIniciales #jQuery:hover {
+        background-color: #bce2a3; }
+      main #botonesIniciales #jQuery:active {
+        background-color: #23470b;
+        color: #dceccc; }
+      main #botonesIniciales #jQuery:focus {
+        outline: none; }

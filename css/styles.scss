@@ -1,5 +1,26 @@
 $colorFondo:rgb(12, 87, 12);
+$verdeOscuro:#23470b;
+$verdeClarito:#dceccc;
+$verdeClaro:#bce2a3;
 $blanco:whitesmoke;
+@mixin estiloBotones{
+    padding:7px 200px;
+    border:solid 1px $verdeOscuro;
+    color:$verdeOscuro;
+    background-color: $verdeClarito;
+    border-radius: 7px;
+     &:hover{
+        background-color: #bce2a3;
+    }
+    &:active{
+        background-color: #23470b;
+        color:#dceccc;
+    }
+    &:focus{
+        outline: none;
+    }
+    
+}
 *{
     box-sizing: border-box;
 }
@@ -14,4 +35,31 @@ header{
     h1{
         color:$blanco
     }    
+}
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border:1px black solid;
+    padding-bottom: 50px;
+    h1{
+        color:$verdeOscuro;
+    }
+    #botonesIniciales{
+        display:flex;
+        flex-direction: column;
+        justify-content: space-around;
+        height: 150px;
+        
+        #XHR{
+                
+            @include estiloBotones();
+        }
+        #Fetch{
+            @include estiloBotones();
+        }
+        #jQuery{
+            @include estiloBotones();
+        }
+    }
 }
