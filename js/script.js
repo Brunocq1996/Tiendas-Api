@@ -22,6 +22,7 @@ async function XHRGET(){
                 //OCULTAR LOADER
                 spinner.style.display = "none";
                 //document.getElementById("NewTyBus").style.display = "flex";
+                crearLista();
                 //constructor(datos);
 
             }
@@ -35,3 +36,29 @@ async function XHRGET(){
 }
 
 console.log(datos);
+
+function crearLista(){
+    var main=document.getElementsByTagName("main")[0];
+    console.log(main);
+    var lista=document.createElement("div");
+    lista.setAttribute("id", "lista");
+    main.appendChild(lista);
+    datos.forEach(element => {        
+        var div=document.createElement("div");
+        var h1=document.createElement("h1");
+        var textoH1=document.createTextNode(element.nombreTienda)
+        h1.appendChild(textoH1);
+        div.appendChild(h1);
+        var pDireccion=document.createElement("p");
+        var textoPDireccion=document.createTextNode(element.direccion+" "+element.localidad);
+        pDireccion.appendChild(textoPDireccion);
+        div.appendChild(pDireccion);
+        var pTelefono=document.createElement("p");
+        var textoPTelefono=document.createTextNode(element.telefono);
+        pTelefono.appendChild(textoPTelefono);
+        div.appendChild(pTelefono);
+        lista.appendChild(div);
+    });
+    
+
+}

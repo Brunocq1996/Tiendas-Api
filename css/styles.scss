@@ -43,6 +43,7 @@ body{
 }
 main{
     height: 100%;
+    border: 1px solid black;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -87,6 +88,10 @@ main{
         transform: rotate(-360deg)
     }
 
+}
+#lista{
+    display: flex;
+    flex-direction: column;
 }
 // @keyframes cargar{
 //     0% {
