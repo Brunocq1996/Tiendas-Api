@@ -1,15 +1,29 @@
-
+var datos;
+document.querySelectorAll('.boton').forEach(item => {
+    item.addEventListener('click', () => { ocultar(event)
+      //handle click
+    })
+})
 var xhr=document.getElementById("XHR");
-xhr.addEventListener('click', ()=> ocultar());
+xhr.addEventListener('click', ()=> ocultar(event));
 var spinner=document.getElementById("spinner");
 
-function ocultar(){
+function ocultar(event){
     var pantallaPrincipal=document.getElementById("pantallaPrincipal");
     pantallaPrincipal.style.display="none";
     spinner.style.display="block";
-    XHRGET();
+    console.log(event.target);
+    if(event.target.getAttribute("id")=="XHR"){
+        XHRGET();
+    }else if(event.target.getAttribute("id")=="Fetch"){
+        console.log("Fetch");        
+    }else{
+        datos=getJquery();
+        crearLista();
+    }   
+    
 }
-var datos;
+
 async function XHRGET(){
     
     const consulta = new XMLHttpRequest();
@@ -34,10 +48,22 @@ async function XHRGET(){
     consulta.open('GET','https://webapp-210130211157.azurewebsites.net/webresources/mitienda/',true)
     consulta.send();
 }
-
+async function getJquery() {
+    return await $.ajax({
+     type: "GET",
+     url: "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/",
+     async: true,
+     dataType: "json",
+     success: datos => {
+       spinner.style.display= "none";       
+       return datos;
+     }
+   });
+ }
 console.log(datos);
 
 function crearLista(){
+    console.log(datos);
     var main=document.getElementsByTagName("main")[0];
     console.log(main);
     var lista=document.createElement("div");
