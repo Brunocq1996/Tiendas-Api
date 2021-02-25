@@ -1,43 +1,38 @@
 var datos;
 document.querySelectorAll('.boton').forEach(item => {
-    item.addEventListener('click', () => { ocultar(event)
-      //handle click
+    item.addEventListener('click', () => {
+        ocultar(event)
+        //handle click
     })
 })
-var xhr=document.getElementById("XHR");
-xhr.addEventListener('click', ()=> ocultar(event));
-var spinner=document.getElementById("spinner");
 
-function ocultar(event){
-    var pantallaPrincipal=document.getElementById("pantallaPrincipal");
-    pantallaPrincipal.style.display="none";
-    spinner.style.display="block";
+function ocultar(event) {
+    var pantallaPrincipal = document.getElementById("pantallaPrincipal");
+    pantallaPrincipal.style.display = "none";
+    spinner.style.display = "block";
     console.log(event.target);
-    if(event.target.getAttribute("id")=="XHR"){
+    if (event.target.getAttribute("id") == "XHR") {
         XHRGET();
-    }else if(event.target.getAttribute("id")=="Fetch"){
-        console.log("Fetch");        
-    }else{
-        datos=getJquery();
-        crearLista();
-    }   
-    
+    } else if (event.target.getAttribute("id") == "Fetch") {
+        getFetch();
+    } else {
+        test();
+    }
+
 }
 
-async function XHRGET(){
-    
+//XHR
+async function XHRGET() {
+
     const consulta = new XMLHttpRequest();
-    consulta.onreadystatechange = function(){
+    consulta.onreadystatechange = function () {
         if (consulta.readyState == 4) {
             if (consulta.status == 200) {
 
                 console.log(consulta.responseText);
                 datos = JSON.parse(consulta.responseText);
-                //OCULTAR LOADER
                 spinner.style.display = "none";
-                //document.getElementById("NewTyBus").style.display = "flex";
                 crearLista();
-                //constructor(datos);
 
             }
             if (consulta.status == 404) {
@@ -45,46 +40,74 @@ async function XHRGET(){
             }
         }
     }
-    consulta.open('GET','https://webapp-210130211157.azurewebsites.net/webresources/mitienda/',true)
+    consulta.open('GET', 'https://webapp-210130211157.azurewebsites.net/webresources/mitienda/', true)
     consulta.send();
 }
-async function getJquery() {
-    return await $.ajax({
-     type: "GET",
-     url: "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/",
-     async: true,
-     dataType: "json",
-     success: datos => {
-       spinner.style.display= "none";       
-       return datos;
-     }
-   });
- }
-console.log(datos);
 
-function crearLista(){
+// JQERY
+function getJquery(ajaxurl) {
+    return $.ajax({
+        url: ajaxurl,
+        type: 'GET',
+    });
+};
+
+async function test() {
+    try {
+        datos = await getJquery('https://webapp-210130211157.azurewebsites.net/webresources/mitienda/')
+        spinner.style.display = "none";
+        crearLista();
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+
+//FETCH
+async function getFetch() {
+    var link;
+  
+    // if ((valor != null) && (valor != "")){
+    //   link = "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/" + valor;
+    // }else{
+      link = "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/";
+    // }
+  
+    return await fetch(link)
+    .then(response => response.text())    
+    .then(datos => {
+      return JSON.parse(datos)
+      
+    })
+    .then(crearLista())
+  }
+
+
+
+function crearLista() {
     console.log(datos);
-    var main=document.getElementsByTagName("main")[0];
+    var main = document.getElementsByTagName("main")[0];
     console.log(main);
-    var lista=document.createElement("div");
+    var lista = document.createElement("div");
     lista.setAttribute("id", "lista");
     main.appendChild(lista);
-    datos.forEach(element => {        
-        var div=document.createElement("div");
-        var h1=document.createElement("h1");
-        var textoH1=document.createTextNode(element.nombreTienda)
+    datos.forEach(element => {
+        var div = document.createElement("div");
+        var h1 = document.createElement("h1");
+        var textoH1 = document.createTextNode(element.nombreTienda)
         h1.appendChild(textoH1);
         div.appendChild(h1);
-        var pDireccion=document.createElement("p");
-        var textoPDireccion=document.createTextNode(element.direccion+" "+element.localidad);
+        var pDireccion = document.createElement("p");
+        var textoPDireccion = document.createTextNode(element.direccion + " " + element.localidad);
         pDireccion.appendChild(textoPDireccion);
         div.appendChild(pDireccion);
-        var pTelefono=document.createElement("p");
-        var textoPTelefono=document.createTextNode(element.telefono);
+        var pTelefono = document.createElement("p");
+        var textoPTelefono = document.createTextNode(element.telefono);
         pTelefono.appendChild(textoPTelefono);
         div.appendChild(pTelefono);
         lista.appendChild(div);
     });
-    
+
 
 }
+
