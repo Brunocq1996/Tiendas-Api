@@ -1,4 +1,4 @@
-var datos;
+
 document.querySelectorAll('.boton').forEach(item => {
     item.addEventListener('click', () => {
         ocultar(event)
@@ -6,7 +6,7 @@ document.querySelectorAll('.boton').forEach(item => {
     })
 })
 
-function ocultar(event) {
+async function ocultar(event) {
     var pantallaPrincipal = document.getElementById("pantallaPrincipal");
     pantallaPrincipal.style.display = "none";
     spinner.style.display = "block";
@@ -30,9 +30,9 @@ async function XHRGET() {
             if (consulta.status == 200) {
 
                 console.log(consulta.responseText);
-                datos = JSON.parse(consulta.responseText);
+                var datos = JSON.parse(consulta.responseText);
                 spinner.style.display = "none";
-                crearLista();
+                crearLista(datos);
 
             }
             if (consulta.status == 404) {
@@ -54,9 +54,9 @@ function getJquery(ajaxurl) {
 
 async function test() {
     try {
-        datos = await getJquery('https://webapp-210130211157.azurewebsites.net/webresources/mitienda/')
+        var datos = await getJquery('https://webapp-210130211157.azurewebsites.net/webresources/mitienda/')
         spinner.style.display = "none";
-        crearLista();
+        crearLista(datos);
     } catch (err) {
         console.log(err);
     }
@@ -75,16 +75,18 @@ async function getFetch() {
   
     return await fetch(link)
     .then(response => response.text())    
-    .then(datos => {
-      return JSON.parse(datos)
+    .then(datosSinJson => {
+      var datos=JSON.parse(datosSinJson)
+      spinner.style.display = "none";
+      crearLista(datos);
       
     })
-    .then(crearLista())
+    
   }
 
 
 
-function crearLista() {
+function crearLista(datos) {
     console.log(datos);
     var main = document.getElementsByTagName("main")[0];
     console.log(main);
