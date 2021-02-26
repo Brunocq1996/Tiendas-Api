@@ -1,4 +1,3 @@
-
 document.querySelectorAll('.boton').forEach(item => {
     item.addEventListener('click', () => {
         ocultar(event)
@@ -6,7 +5,7 @@ document.querySelectorAll('.boton').forEach(item => {
     })
 })
 
-async function ocultar(event) {
+function ocultar(event) {
     var pantallaPrincipal = document.getElementById("pantallaPrincipal");
     pantallaPrincipal.style.display = "none";
     spinner.style.display = "block";
@@ -87,12 +86,13 @@ async function getFetch() {
 
 
 function crearLista(datos) {
-    console.log(datos);
-    var main = document.getElementsByTagName("main")[0];
+    var main=document.getElementsByTagName("main")[0];
     console.log(main);
-    var lista = document.createElement("div");
-    lista.setAttribute("id", "lista");
-    main.appendChild(lista);
+    main.style.height = "auto";
+    console.log(datos);     
+    var lista = document.getElementById("lista");
+    var buscadorLista=document.getElementById("buscadorLista")
+    buscadorLista.style.display="block"
     datos.forEach(element => {
         var div = document.createElement("div");
         var h1 = document.createElement("h1");

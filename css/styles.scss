@@ -43,12 +43,11 @@ body{
 }
 main{
     height: 100%;
-    border: 1px solid black;
+    // border: 1px solid black;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-bottom: 50px;
     h1{
         color:$verdeOscuro;
     }
@@ -56,6 +55,7 @@ main{
         display:flex;
         flex-direction: column;
         justify-content: space-around;
+        align-self: center;
         height: 150px;
         
         #XHR{
@@ -91,10 +91,25 @@ main{
 }
 #lista{
     display: flex;
+    align-items: center;
     flex-direction: column;
-    width:400px;
-    height: 400px;
+    width:100%;
+    height: 50px;
 }
+#buscadorLista{
+    display:none;
+    width: 100%;
+}
+#parteMenu{
+    display:flex;
+    justify-content: space-around;
+    align-items: center;
+}
+// #buscar{
+//     display: flex;
+//     justify-content: center;
+//     align-content: center;
+// }
 // @keyframes cargar{
 //     0% {
 //         transform: rotate(0deg)

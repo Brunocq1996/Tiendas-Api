@@ -18,18 +18,17 @@ body {
 
 main {
   height: 100%;
-  border: 1px solid black;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  padding-bottom: 50px; }
+  align-items: center; }
   main h1 {
     color: #23470b; }
   main #botonesIniciales {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
+    align-self: center;
     height: 150px; }
     main #botonesIniciales #XHR {
       padding: 7px 200px;
@@ -86,6 +85,16 @@ main {
 
 #lista {
   display: flex;
+  align-items: center;
   flex-direction: column;
-  width: 400px;
-  height: 400px; }
+  width: 100%;
+  height: 50px; }
+
+#buscadorLista {
+  display: none;
+  width: 100%; }
+
+#parteMenu {
+  display: flex;
+  justify-content: space-around;
+  align-items: center; }
