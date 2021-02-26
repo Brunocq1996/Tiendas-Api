@@ -4,6 +4,7 @@ document.querySelectorAll('.boton').forEach(item => {
         //handle click
     })
 })
+var ajax;
 
 function ocultar(event) {
     var pantallaPrincipal = document.getElementById("pantallaPrincipal");
@@ -12,18 +13,23 @@ function ocultar(event) {
     console.log(event.target);
     if (event.target.getAttribute("id") == "XHR") {
         XHRGET();
+        ajax="XHR"
     } else if (event.target.getAttribute("id") == "Fetch") {
-        getFetch();
+        Fetch();
+        ajax="Fetch"
     } else {
-        test();
+        jQuery();
+        ajax="jQuery"
     }
 
 }
 
 //XHR
-async function XHRGET() {
+async function XHRGET(valor) {
 
     const consulta = new XMLHttpRequest();
+    consulta.open('GET', 'https://webapp-210130211157.azurewebsites.net/webresources/mitienda/', true)
+    consulta.send();
     consulta.onreadystatechange = function () {
         if (consulta.readyState == 4) {
             if (consulta.status == 200) {
@@ -39,19 +45,18 @@ async function XHRGET() {
             }
         }
     }
-    consulta.open('GET', 'https://webapp-210130211157.azurewebsites.net/webresources/mitienda/', true)
-    consulta.send();
+    
 }
 
 // JQERY
 function getJquery(ajaxurl) {
-    return $.ajax({
-        url: ajaxurl,
+    return $.ajax({        
         type: 'GET',
+        url: ajaxurl
     });
 };
 
-async function test() {
+async function jQuery() {
     try {
         var datos = await getJquery('https://webapp-210130211157.azurewebsites.net/webresources/mitienda/')
         spinner.style.display = "none";
@@ -63,7 +68,7 @@ async function test() {
 
 
 //FETCH
-async function getFetch() {
+async function Fetch(valor) {
     var link;
   
     // if ((valor != null) && (valor != "")){
@@ -77,11 +82,10 @@ async function getFetch() {
     .then(datosSinJson => {
       var datos=JSON.parse(datosSinJson)
       spinner.style.display = "none";
-      crearLista(datos);
-      
+      crearLista(datos);      
     })
     
-  }
+}
 
 
 
@@ -92,7 +96,7 @@ function crearLista(datos) {
     console.log(datos);     
     var lista = document.getElementById("lista");
     var buscadorLista=document.getElementById("buscadorLista")
-    buscadorLista.style.display="block"
+    buscadorLista.style.display="flex"
     datos.forEach(element => {
         var div = document.createElement("div");
         var h1 = document.createElement("h1");
@@ -107,9 +111,22 @@ function crearLista(datos) {
         var textoPTelefono = document.createTextNode(element.telefono);
         pTelefono.appendChild(textoPTelefono);
         div.appendChild(pTelefono);
+        div.setAttribute("class", "infoCaja");
         lista.appendChild(div);
     });
 
-
+    var botonBuscar=document.getElementById("botonBuscar");
+    botonBuscar.addEventListener('click',()=>recogerTienda())
 }
 
+function recogerTienda(){
+    var valor=idTienda.value;
+    if (ajax == "XHR") {
+        XHRGET(valor);
+    } else if (ajax == "Fetch") {
+        Fetch(valor);
+    } else {
+        jQuery(valor);
+    }
+
+}
