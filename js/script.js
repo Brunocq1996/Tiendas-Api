@@ -13,13 +13,13 @@ function ocultar(event) {
     console.log(event.target);
     if (event.target.getAttribute("id") == "XHR") {
         XHRGET();
-        ajax="XHR"
+        ajax = "XHR"
     } else if (event.target.getAttribute("id") == "Fetch") {
         Fetch();
-        ajax="Fetch"
+        ajax = "Fetch"
     } else {
         jQuery();
-        ajax="jQuery"
+        ajax = "jQuery"
     }
 
 }
@@ -28,13 +28,20 @@ function ocultar(event) {
 async function XHRGET(valor) {
 
     const consulta = new XMLHttpRequest();
-    consulta.open('GET', 'https://webapp-210130211157.azurewebsites.net/webresources/mitienda/', true)
+    if ((valor != null) && (valor != "")) {
+        consulta.open('GET', 'https://webapp-210130211157.azurewebsites.net/webresources/mitienda/' + valor, true)
+    } else {
+        consulta.open('GET', 'https://webapp-210130211157.azurewebsites.net/webresources/mitienda/', true)
+    }
     consulta.send();
     consulta.onreadystatechange = function () {
         if (consulta.readyState == 4) {
             if (consulta.status == 200) {
 
                 console.log(consulta.responseText);
+                while (lista.firstChild) {
+                    lista.removeChild(lista.firstChild);
+                }
                 var datos = JSON.parse(consulta.responseText);
                 spinner.style.display = "none";
                 crearLista(datos);
@@ -45,20 +52,27 @@ async function XHRGET(valor) {
             }
         }
     }
-    
+
 }
 
 // JQERY
 function getJquery(ajaxurl) {
-    return $.ajax({        
+    return $.ajax({
         type: 'GET',
         url: ajaxurl
     });
 };
 
-async function jQuery() {
+async function jQuery(valor) {
     try {
-        var datos = await getJquery('https://webapp-210130211157.azurewebsites.net/webresources/mitienda/')
+        if ((valor != null) && (valor != "")) {
+            var datos = await getJquery('https://webapp-210130211157.azurewebsites.net/webresources/mitienda/' + valor)
+        } else {
+            var datos = await getJquery('https://webapp-210130211157.azurewebsites.net/webresources/mitienda/')
+        }
+        while (lista.firstChild) {
+            lista.removeChild(lista.firstChild);
+        }
         spinner.style.display = "none";
         crearLista(datos);
     } catch (err) {
@@ -69,58 +83,79 @@ async function jQuery() {
 
 //FETCH
 async function Fetch(valor) {
-    var link;
-  
-    // if ((valor != null) && (valor != "")){
-    //   link = "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/" + valor;
-    // }else{
-      link = "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/";
-    // }
-  
-    return await fetch(link)
-    .then(response => response.text())    
-    .then(datosSinJson => {
-      var datos=JSON.parse(datosSinJson)
-      spinner.style.display = "none";
-      crearLista(datos);      
-    })
-    
+    var enlace;
+
+    if ((valor != null) && (valor != "")) {
+        enlace = "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/" + valor;
+    } else {
+        enlace = "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/";
+    }
+
+    return await fetch(enlace)
+        .then(response => response.text())
+        .then(datosSinJson => {
+            var datos = JSON.parse(datosSinJson)
+            while (lista.firstChild) {
+                lista.removeChild(lista.firstChild);
+            }
+            spinner.style.display = "none";
+            crearLista(datos);
+        })
+
 }
 
 
 
 function crearLista(datos) {
-    var main=document.getElementsByTagName("main")[0];
+    var main = document.getElementsByTagName("main")[0];
     console.log(main);
     main.style.height = "auto";
-    console.log(datos);     
+    console.log(datos);
     var lista = document.getElementById("lista");
-    var buscadorLista=document.getElementById("buscadorLista")
-    buscadorLista.style.display="flex"
-    datos.forEach(element => {
+    var buscadorLista = document.getElementById("buscadorLista")
+    buscadorLista.style.display = "flex"
+    if (datos.length == undefined) {
         var div = document.createElement("div");
         var h1 = document.createElement("h1");
-        var textoH1 = document.createTextNode(element.nombreTienda)
+        var textoH1 = document.createTextNode(datos.nombreTienda)
         h1.appendChild(textoH1);
         div.appendChild(h1);
         var pDireccion = document.createElement("p");
-        var textoPDireccion = document.createTextNode(element.direccion + " " + element.localidad);
+        var textoPDireccion = document.createTextNode(datos.direccion + " " + datos.localidad);
         pDireccion.appendChild(textoPDireccion);
         div.appendChild(pDireccion);
         var pTelefono = document.createElement("p");
-        var textoPTelefono = document.createTextNode(element.telefono);
+        var textoPTelefono = document.createTextNode(datos.telefono);
         pTelefono.appendChild(textoPTelefono);
         div.appendChild(pTelefono);
         div.setAttribute("class", "infoCaja");
         lista.appendChild(div);
-    });
+    } else {
+        datos.forEach(element => {
+            var div = document.createElement("div");
+            var h1 = document.createElement("h1");
+            var textoH1 = document.createTextNode(element.nombreTienda)
+            h1.appendChild(textoH1);
+            div.appendChild(h1);
+            var pDireccion = document.createElement("p");
+            var textoPDireccion = document.createTextNode(element.direccion + " " + element.localidad);
+            pDireccion.appendChild(textoPDireccion);
+            div.appendChild(pDireccion);
+            var pTelefono = document.createElement("p");
+            var textoPTelefono = document.createTextNode(element.telefono);
+            pTelefono.appendChild(textoPTelefono);
+            div.appendChild(pTelefono);
+            div.setAttribute("class", "infoCaja");
+            lista.appendChild(div);
+        });
+    }
 
-    var botonBuscar=document.getElementById("botonBuscar");
-    botonBuscar.addEventListener('click',()=>recogerTienda())
+    var botonBuscar = document.getElementById("botonBuscar");
+    botonBuscar.addEventListener('click', () => recogerTienda())
 }
 
-function recogerTienda(){
-    var valor=idTienda.value;
+function recogerTienda() {
+    var valor = idTienda.value;
     if (ajax == "XHR") {
         XHRGET(valor);
     } else if (ajax == "Fetch") {
