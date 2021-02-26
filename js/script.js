@@ -163,5 +163,7 @@ function recogerTienda() {
     } else {
         jQuery(valor);
     }
+    botonBuscar.style.display="none";
+    botonX.style.display="block";
 
 }

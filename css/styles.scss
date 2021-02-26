@@ -126,6 +126,12 @@ main{
         color:$verdeOscuro;
         background:none;
     }
+    #botonX{
+        display:none;
+        border:$verdeOscuro 1px solid;
+        color:$verdeOscuro;
+        background:none;
+    }
     svg{
         color: $verdeOscuro;
     }

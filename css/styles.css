@@ -117,5 +117,10 @@ main {
     border: #23470b 1px solid;
     color: #23470b;
     background: none; }
+  #buscar #botonX {
+    display: none;
+    border: #23470b 1px solid;
+    color: #23470b;
+    background: none; }
   #buscar svg {
     color: #23470b; }
