@@ -3,6 +3,7 @@ $verdeOscuro:#23470b;
 $verdeClarito:#dceccc;
 $verdeClaro:#bce2a3;
 $blanco:whitesmoke;
+$negro:black;
 @mixin estiloBotones{
     padding:7px 200px;
     border:solid 1px $verdeOscuro;
@@ -113,6 +114,7 @@ main{
 }
 #parteMenu{
     display:flex;
+    // height: 250px;
     justify-content: space-between;
     align-items: center;
 }
@@ -134,5 +136,43 @@ main{
     }
     svg{
         color: $verdeOscuro;
+    }
+}
+#toogleForm {
+    color: $verdeOscuro;
+    font-size: 20px;
+    margin: .5rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+#formContainer {
+    display: none;
+    transition: all .5s ease;
+    form {
+        padding: 1rem;
+        border: 2px solid $verdeOscuro;
+        border-radius: 1rem;
+        margin-bottom: 1rem;
+        .formRow {
+            display: flex;
+            gap: 1rem;
+            
+        }
+        .formRow:not(:last-child) {
+            margin-bottom: 1rem;            
+        }
+        .formGroup {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            color: $negro;
+        }
+        #cajaBoton{
+            justify-content: flex-end;
+            #anade{
+                @include estiloBotones();
+            }
+        }        
     }
 }

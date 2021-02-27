@@ -10,7 +10,7 @@ function ocultar(event) {
     var pantallaPrincipal = document.getElementById("pantallaPrincipal");
     pantallaPrincipal.style.display = "none";
     spinner.style.display = "block";
-    console.log(event.target);
+    // console.log(event.target);
     if (event.target.getAttribute("id") == "XHR") {
         XHRGET();
         ajax = "XHR"
@@ -38,7 +38,7 @@ async function XHRGET(valor) {
         if (consulta.readyState == 4) {
             if (consulta.status == 200) {
 
-                console.log(consulta.responseText);
+                
                 while (lista.firstChild) {
                     lista.removeChild(lista.firstChild);
                 }
@@ -108,9 +108,7 @@ async function Fetch(valor) {
 
 function crearLista(datos) {
     var main = document.getElementsByTagName("main")[0];
-    console.log(main);
     main.style.height = "auto";
-    console.log(datos);
     var lista = document.getElementById("lista");
     var buscadorLista = document.getElementById("buscadorLista")
     buscadorLista.style.display = "flex"
@@ -167,3 +165,138 @@ function recogerTienda() {
     botonX.style.display="block";
 
 }
+
+document.getElementById("toogleForm").addEventListener('click', e => {
+    $(e.target.parentNode.nextElementSibling).slideToggle()
+})
+
+var continuar=true;
+var tlf = document.getElementById("tlf");
+var MensajeTlf = document.getElementById("MensajeTlf");
+tlf.addEventListener('input', () => {
+    telefono();
+})
+function telefono() {
+    if (tlf.validity.valueMissing) {
+        MensajeTlf.textContent = "El campo no puede estar vacio";
+        MensajeTlf.style = "color: red";
+        tlf.style = "border: red solid 1px";
+        continuar = false;
+
+    } else if (tlf.validity.patternMismatch) {
+        MensajeTlf.textContent = "Tienen que introducirse 9 números y empezar por 6,8 o 9";
+        MensajeTlf.style = "color: red";
+        tlf.style = "border: red solid 1px";
+        continuar = false;
+    } else {
+        MensajeTlf.textContent = "";
+        tlf.style = "border: green solid 1px";
+    }
+}
+
+var errorName=document.getElementById("errorName");
+var nombreTienda=document.getElementById("nombreTienda");
+nombreTienda.addEventListener('input', ()=> {
+    nombreTiendaFunct();
+})
+
+function nombreTiendaFunct(){
+
+    if (nombreTienda.validity.valueMissing) {
+        errorName.textContent = "El campo no puede estar vacio";
+        errorName.style = "color: red";
+        nombreTienda.style = "border: red solid 1px";
+        continuar = false;
+
+    }else if(nombreTienda.validity.valueMissign){
+        errorName.textContent="El campo no puede estar vacío";
+        errorName.style.color="red";
+        nombreTienda.style.border="red solid 1px";
+        continuar = false;
+    } else{
+        errorName.textContent="";
+        nombreTienda.style.border="green solid 1px";
+    }
+
+
+}
+
+var errorLocal=document.getElementById("errorLocal");
+var local=document.getElementById("local");
+local.addEventListener('input', ()=> {
+    localFunct();
+})
+
+function localFunct(){
+    if (local.validity.valueMissing) {
+        errorLocal.textContent = "El campo no puede estar vacio";
+        errorLocal.style = "color: red";
+        local.style = "border: red solid 1px";
+        continuar = false;
+
+    }else if(local.validity.valueMissign){
+        errorLocal.textContent="El campo no puede estar vacío";
+        errorLocal.style.color="red";
+        local.style.border="red solid 1px";
+        continuar = false;
+    } else{
+        errorLocal.textContent="";
+        local.style.border="green solid 1px";
+    }
+
+
+}
+
+var errorAddress=document.getElementById("errorAddress");
+var address=document.getElementById("address");
+address.addEventListener('input', ()=> {
+    addressFunct();
+})
+
+function addressFunct(){
+    if (address.validity.valueMissing) {
+        errorAddress.textContent = "El campo no puede estar vacio";
+        errorAddress.style = "color: red";
+        address.style = "border: red solid 1px";
+        continuar = false;
+
+    }else if(address.validity.valueMissign){
+        errorAddress.textContent="El campo no puede estar vacío";
+        errorAddress.style.color="red";
+        address.style.border="red solid 1px";
+        continuar = false;
+    } else{
+        errorAddress.textContent="";
+        address.style.border="green solid 1px";
+    }
+
+
+}
+
+var anadir=document.getElementById("anade");
+anadir.addEventListener('click', ()=>{
+    iniciarFormulario();
+})
+
+function iniciarFormulario(){
+    continuar=true;
+    telefono();
+    nombreTiendaFunct();
+    localFunct();
+    addressFunct();
+    if(continuar){
+        console.log("todo bien");
+        anadirABaseDatos();
+    }
+}
+
+// function anadirABaseDatos(){
+//     if (ajax == "XHR") {
+//         XHRPOST();
+//     } else if (ajax == "Fetch") {
+//         FetchPOST();
+//     } else {
+//         jQueryPOST();
+//     }
+
+// }

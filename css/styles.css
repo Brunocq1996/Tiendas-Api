@@ -124,3 +124,44 @@ main {
     background: none; }
   #buscar svg {
     color: #23470b; }
+
+#toogleForm {
+  color: #23470b;
+  font-size: 20px;
+  margin: .5rem;
+  cursor: pointer;
+  user-select: none; }
+
+#formContainer {
+  display: none;
+  transition: all .5s ease; }
+  #formContainer form {
+    padding: 1rem;
+    border: 2px solid #23470b;
+    border-radius: 1rem;
+    margin-bottom: 1rem; }
+    #formContainer form .formRow {
+      display: flex;
+      gap: 1rem; }
+    #formContainer form .formRow:not(:last-child) {
+      margin-bottom: 1rem; }
+    #formContainer form .formGroup {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      color: black; }
+    #formContainer form #cajaBoton {
+      justify-content: flex-end; }
+      #formContainer form #cajaBoton #anade {
+        padding: 7px 200px;
+        border: solid 1px #23470b;
+        color: #23470b;
+        background-color: #dceccc;
+        border-radius: 7px; }
+        #formContainer form #cajaBoton #anade:hover {
+          background-color: #bce2a3; }
+        #formContainer form #cajaBoton #anade:active {
+          background-color: #23470b;
+          color: #dceccc; }
+        #formContainer form #cajaBoton #anade:focus {
+          outline: none; }
