@@ -107,6 +107,7 @@ async function Fetch(valor) {
 
 
 function crearLista(datos) {
+    console.log(datos);
     var main = document.getElementsByTagName("main")[0];
     main.style.height = "auto";
     var lista = document.getElementById("lista");
@@ -164,6 +165,12 @@ function recogerTienda() {
     botonBuscar.style.display="none";
     botonX.style.display="block";
 
+}
+var quitarBusca=document.getElementById("botonX")
+quitarBusca.addEventListener('click', ()=> volverLista())
+
+function volverLista(){
+    
 }
 
 document.getElementById("toogleForm").addEventListener('click', e => {
@@ -290,13 +297,44 @@ function iniciarFormulario(){
     }
 }
 
-// function anadirABaseDatos(){
-//     if (ajax == "XHR") {
-//         XHRPOST();
-//     } else if (ajax == "Fetch") {
-//         FetchPOST();
-//     } else {
-//         jQueryPOST();
-//     }
+function anadirABaseDatos(){
+    var nuevaTienda={nombreTienda:nombreTienda.value, direccion:address.value, localidad: local.value, telefono:tlf.value}
+    if (ajax == "XHR") {
+        XHRPOST(nuevaTienda);
+    } else if (ajax == "Fetch") {
+        FetchPOST(nuevaTienda);
+    } else {
+        jQueryPOST(nuevaTienda);
+    }
 
-// }
+}
+
+async function FetchPOST(nuevaTienda){
+    await fetch("https://webapp-210130211157.azurewebsites.net/webresources/mitienda/",
+    {
+        headers: {      
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify(nuevaTienda)
+    })
+    .catch(MensajeError => console.log(MensajeError));
+}
+
+async function jQueryPOST(nuevaTienda) {
+    await $.ajax({
+      url: 'https://webapp-210130211157.azurewebsites.net/webresources/mitienda/',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(nuevaTienda),
+      dataType: 'json'
+      });
+      alert("json posted!");
+}
+
+async function XHRPOST(nuevaTienda) {
+    var xhrPost = new XMLHttpRequest();
+    xhrPost.open("POST", 'https://webapp-210130211157.azurewebsites.net/webresources/mitienda/');
+    xhrPost.setRequestHeader("Content-Type", "application/json");
+    await xhrPost.send(JSON.stringify(nuevaTienda));
+}
