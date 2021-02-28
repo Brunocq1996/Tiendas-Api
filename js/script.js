@@ -335,11 +335,15 @@ function anadirABaseDatos() {
     var nuevaTienda = { nombreTienda: nombreTienda.value, direccion: address.value, localidad: local.value, telefono: tlf.value }
     if (ajax == "XHR") {
         XHRPOST(nuevaTienda);
+        XHRGET()
     } else if (ajax == "Fetch") {
         FetchPOST(nuevaTienda);
+        Fetch()
     } else {
         jQueryPOST(nuevaTienda);
+        jQuery();
     }
+
 
 }
 
