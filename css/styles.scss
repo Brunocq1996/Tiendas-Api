@@ -10,7 +10,7 @@ $negro:black;
     color:$verdeOscuro;
     background-color: $verdeClarito;
     border-radius: 7px;
-     &:hover{
+    &:hover{
         background-color: #bce2a3;
     }
     &:active{
@@ -22,75 +22,7 @@ $negro:black;
     }
     
 }
-*{
-    box-sizing: border-box;
-}
-html, body{
-    margin: 0px;
-    height:100%;
-}
-
-header{
-    background-color:$colorFondo;
-    display: flex;
-    justify-content: center;
-    h1{
-        color:$blanco
-    }    
-}
-body{
-    display: flex;
-    flex-direction: column;
-}
-main{
-    height: 100%;
-    // border: 1px solid black;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    h1{
-        color:$verdeOscuro;
-    }
-    #botonesIniciales{
-        display:flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-self: center;
-        height: 150px;
-        
-        #XHR{
-                
-            @include estiloBotones();
-        }
-        #Fetch{
-            @include estiloBotones();
-        }
-        #jQuery{
-            @include estiloBotones();
-        }
-    }
-}
-#spinner{
-    display:none;
-    width: 200px;
-    height: 200px;    
-    img{
-        animation: cargar 1s linear infinite;
-    }
-    
-}
-@keyframes cargar{
-    0% {
-        transform: rotate(0deg)
-    }
-      
-    100% {
-        transform: rotate(-360deg)
-    }
-
-}
-#lista{
+@mixin listaCajas{
     display:flex;
     flex-direction: column;
     align-self: center;
@@ -105,74 +37,180 @@ main{
         padding: 15px;
     }
 }
-#buscadorLista{
-    display:none;
-    flex-direction: column;
-    justify-content: space-between;
-    // width: 100%;
-    margin: 0 2000px;
+@mixin botonesBusca{
+    border:$verdeOscuro 1px solid;
+    color:$verdeOscuro;
+    background:none;
+    margin-left: 15px;
+    &:hover{
+        background-color: #bce2a3;
+    }
+    &:active{
+        background-color: #23470b;
+        color:#dceccc;
+    }
+    &:focus{
+        outline: none;
+    }
 }
-#parteMenu{
-    display:flex;
-    // height: 250px;
-    justify-content: space-between;
-    align-items: center;
+*{
+    box-sizing: border-box;
 }
-#buscar{
+html, body{
+    margin: 0px;
+    height:100%;
+}
+body{
     display: flex;
-    justify-content: center;
-    align-content: center;
-    height: 30px;
-    #botonBuscar{
-        border:$verdeOscuro 1px solid;
-        color:$verdeOscuro;
-        background:none;
+    flex-direction: column;
+    header{
+        background-color:$colorFondo;
+        display: flex;
+        justify-content: center;
+        h1{
+            color:$blanco
+        }    
     }
-    #botonX{
-        display:none;
-        border:$verdeOscuro 1px solid;
-        color:$verdeOscuro;
-        background:none;
-    }
-    svg{
-        color: $verdeOscuro;
-    }
-}
-#toogleForm {
-    color: $verdeOscuro;
-    font-size: 20px;
-    margin: .5rem;
-    cursor: pointer;
-    user-select: none;
-}
-
-#formContainer {
-    display: none;
-    transition: all .5s ease;
-    form {
-        padding: 1rem;
-        border: 2px solid $verdeOscuro;
-        border-radius: 1rem;
-        margin-bottom: 1rem;
-        .formRow {
-            display: flex;
-            gap: 1rem;
-            
+    main{
+        height: 100%;
+        // border: 1px solid black;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        h1{
+            color:$verdeOscuro;
         }
-        .formRow:not(:last-child) {
-            margin-bottom: 1rem;            
-        }
-        .formGroup {
-            display: flex;
+        #botonesIniciales{
+            display:flex;
             flex-direction: column;
-            flex: 1;
-            color: $negro;
-        }
-        #cajaBoton{
-            justify-content: flex-end;
-            #anade{
+            justify-content: space-around;
+            align-self: center;
+            height: 150px;
+            
+            #XHR{
+                    
                 @include estiloBotones();
             }
-        }        
+            #Fetch{
+                @include estiloBotones();
+            }
+            #jQuery{
+                @include estiloBotones();
+            }
+        }
+        #spinner{
+            display:none;
+            width: 200px;
+            height: 200px;    
+            img{
+                animation: cargar 1s linear infinite;
+            }
+            
+        }
+        #buscadorLista{
+            display:none;
+            flex-direction: column;
+            justify-content: space-between;
+            // width: 100%;
+            margin: 0 2000px;
+            #parteMenu{
+                display:flex;
+                // height: 250px;
+                justify-content: space-between;
+                align-items: center;
+                #toogleForm {
+                    color: $verdeOscuro;
+                    font-size: 20px;
+                    margin: .5rem;
+                    cursor: pointer;
+                    user-select: none;
+                }
+                #buscar{
+                    display: flex;
+                    justify-content: center;
+                    align-content: center;
+                    height: 30px;
+                    #botonBuscar{
+                        @include botonesBusca();
+                    }
+                    #botonX{
+                        display:none;
+                        @include botonesBusca();
+                    }
+                    // svg{
+                    //     color: $verdeOscuro;
+                        
+                    // }
+                    img{
+                        display:none;
+                        color: $verdeOscuro;
+                    }
+                }
+            }
+            #formContainer {
+                display: none;
+                transition: all .5s ease;
+                form {
+                    padding: 1rem;
+                    border: 2px solid $verdeOscuro;
+                    border-radius: 1rem;
+                    margin-bottom: 1rem;
+                    .formRow {
+                        display: flex;
+                        gap: 1rem;
+                        
+                    }
+                    .formRow:not(:last-child) {
+                        margin-bottom: 1rem;            
+                    }
+                    .formGroup {
+                        display: flex;
+                        flex-direction: column;
+                        flex: 1;
+                        color: $negro;
+                    }
+                    #cajaBoton{
+                        justify-content: flex-end;
+                        #anade{
+                            @include estiloBotones();
+                        }
+                    }        
+                }
+            }
+            #lista{
+                @include listaCajas()
+            }
+            #lugarBusca{
+                @include listaCajas()
+            }
+        }
+        
     }
+}
+
+
+@keyframes cargar{
+    0% {
+        transform: rotate(0deg)
+    }
+      
+    100% {
+        transform: rotate(-360deg)
+    }
+
+}
+
+
+
+
+
+
+
+
+#loadingButton{
+    width:25px;
+    height: auto;
+    animation: cargar 1s linear infinite;
+
 }

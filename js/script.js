@@ -5,7 +5,7 @@ document.querySelectorAll('.boton').forEach(item => {
     })
 })
 var ajax;
-
+var aBuscar=false;
 function ocultar(event) {
     var pantallaPrincipal = document.getElementById("pantallaPrincipal");
     pantallaPrincipal.style.display = "none";
@@ -30,6 +30,7 @@ async function XHRGET(valor) {
     const consulta = new XMLHttpRequest();
     if ((valor != null) && (valor != "")) {
         consulta.open('GET', 'https://webapp-210130211157.azurewebsites.net/webresources/mitienda/' + valor, true)
+        aBuscar=true;
     } else {
         consulta.open('GET', 'https://webapp-210130211157.azurewebsites.net/webresources/mitienda/', true)
     }
@@ -38,10 +39,19 @@ async function XHRGET(valor) {
         if (consulta.readyState == 4) {
             if (consulta.status == 200) {
 
+
                 
-                while (lista.firstChild) {
-                    lista.removeChild(lista.firstChild);
+                if(aBuscar){
+                    while (lugarBusca.firstChild) {
+                        lugarBusca.removeChild(lugarBusca.firstChild);
+                    }
+                    botonBuscar.style.display = "none";
+                    botonX.style.display = "block";
+                    document.getElementsByTagName("svg")[0].style.display = "block";
+                    document.getElementsByTagName("img")[1].style.display = "none";
+                    lista.style.display = "none"
                 }
+                
                 var datos = JSON.parse(consulta.responseText);
                 spinner.style.display = "none";
                 crearLista(datos);
@@ -67,11 +77,19 @@ async function jQuery(valor) {
     try {
         if ((valor != null) && (valor != "")) {
             var datos = await getJquery('https://webapp-210130211157.azurewebsites.net/webresources/mitienda/' + valor)
+            aBuscar=true;
         } else {
             var datos = await getJquery('https://webapp-210130211157.azurewebsites.net/webresources/mitienda/')
         }
-        while (lista.firstChild) {
-            lista.removeChild(lista.firstChild);
+        if(aBuscar){
+            while (lugarBusca.firstChild) {
+                lugarBusca.removeChild(lugarBusca.firstChild);
+            }
+            botonBuscar.style.display = "none";
+            botonX.style.display = "block";
+            document.getElementsByTagName("svg")[0].style.display = "block";
+            document.getElementsByTagName("img")[1].style.display = "none";
+            lista.style.display = "none"
         }
         spinner.style.display = "none";
         crearLista(datos);
@@ -87,6 +105,7 @@ async function Fetch(valor) {
 
     if ((valor != null) && (valor != "")) {
         enlace = "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/" + valor;
+        aBuscar=true;
     } else {
         enlace = "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/";
     }
@@ -95,8 +114,16 @@ async function Fetch(valor) {
         .then(response => response.text())
         .then(datosSinJson => {
             var datos = JSON.parse(datosSinJson)
-            while (lista.firstChild) {
-                lista.removeChild(lista.firstChild);
+           
+            if(aBuscar){
+                while (lugarBusca.firstChild) {
+                    lugarBusca.removeChild(lugarBusca.firstChild);
+                }
+                botonBuscar.style.display = "none";
+                botonX.style.display = "block";
+                document.getElementsByTagName("svg")[0].style.display = "block";
+                document.getElementsByTagName("img")[1].style.display = "none";
+                lista.style.display = "none"
             }
             spinner.style.display = "none";
             crearLista(datos);
@@ -114,6 +141,7 @@ function crearLista(datos) {
     var buscadorLista = document.getElementById("buscadorLista")
     buscadorLista.style.display = "flex"
     if (datos.length == undefined) {
+        lugarBusca.style.display = "flex";
         var div = document.createElement("div");
         var h1 = document.createElement("h1");
         var textoH1 = document.createTextNode(datos.nombreTienda)
@@ -128,7 +156,7 @@ function crearLista(datos) {
         pTelefono.appendChild(textoPTelefono);
         div.appendChild(pTelefono);
         div.setAttribute("class", "infoCaja");
-        lista.appendChild(div);
+        lugarBusca.appendChild(div);
     } else {
         datos.forEach(element => {
             var div = document.createElement("div");
@@ -150,11 +178,14 @@ function crearLista(datos) {
     }
 
     var botonBuscar = document.getElementById("botonBuscar");
-    botonBuscar.addEventListener('click', () => recogerTienda())
+    botonBuscar.addEventListener('click', () => recogerTienda(event))
 }
-
-function recogerTienda() {
+console.log(document.getElementsByTagName("img")[1]);
+function recogerTienda(event) {
     var valor = idTienda.value;
+    event.target.disabled=true;
+    document.getElementsByTagName("svg")[0].style.display = "none";
+    document.getElementsByTagName("img")[1].style.display = "block";    
     if (ajax == "XHR") {
         XHRGET(valor);
     } else if (ajax == "Fetch") {
@@ -162,22 +193,25 @@ function recogerTienda() {
     } else {
         jQuery(valor);
     }
-    botonBuscar.style.display="none";
-    botonX.style.display="block";
+
 
 }
-var quitarBusca=document.getElementById("botonX")
-quitarBusca.addEventListener('click', ()=> volverLista())
+var quitarBusca = document.getElementById("botonX")
+quitarBusca.addEventListener('click', () => volverLista())
 
-function volverLista(){
-    
+function volverLista() {
+    botonBuscar.disabled=false;
+    botonBuscar.style.display = "block";
+    botonX.style.display = "none";
+    lista.style.display = "flex";
+    lugarBusca.style.display = "none";
 }
 
 document.getElementById("toogleForm").addEventListener('click', e => {
     $(e.target.parentNode.nextElementSibling).slideToggle()
 })
 
-var continuar=true;
+var continuar = true;
 var tlf = document.getElementById("tlf");
 var MensajeTlf = document.getElementById("MensajeTlf");
 tlf.addEventListener('input', () => {
@@ -201,13 +235,13 @@ function telefono() {
     }
 }
 
-var errorName=document.getElementById("errorName");
-var nombreTienda=document.getElementById("nombreTienda");
-nombreTienda.addEventListener('input', ()=> {
+var errorName = document.getElementById("errorName");
+var nombreTienda = document.getElementById("nombreTienda");
+nombreTienda.addEventListener('input', () => {
     nombreTiendaFunct();
 })
 
-function nombreTiendaFunct(){
+function nombreTiendaFunct() {
 
     if (nombreTienda.validity.valueMissing) {
         errorName.textContent = "El campo no puede estar vacio";
@@ -215,90 +249,90 @@ function nombreTiendaFunct(){
         nombreTienda.style = "border: red solid 1px";
         continuar = false;
 
-    }else if(nombreTienda.validity.valueMissign){
-        errorName.textContent="El campo no puede estar vacío";
-        errorName.style.color="red";
-        nombreTienda.style.border="red solid 1px";
+    } else if (nombreTienda.validity.valueMissign) {
+        errorName.textContent = "El campo no puede estar vacío";
+        errorName.style.color = "red";
+        nombreTienda.style.border = "red solid 1px";
         continuar = false;
-    } else{
-        errorName.textContent="";
-        nombreTienda.style.border="green solid 1px";
+    } else {
+        errorName.textContent = "";
+        nombreTienda.style.border = "green solid 1px";
     }
 
 
 }
 
-var errorLocal=document.getElementById("errorLocal");
-var local=document.getElementById("local");
-local.addEventListener('input', ()=> {
+var errorLocal = document.getElementById("errorLocal");
+var local = document.getElementById("local");
+local.addEventListener('input', () => {
     localFunct();
 })
 
-function localFunct(){
+function localFunct() {
     if (local.validity.valueMissing) {
         errorLocal.textContent = "El campo no puede estar vacio";
         errorLocal.style = "color: red";
         local.style = "border: red solid 1px";
         continuar = false;
 
-    }else if(local.validity.valueMissign){
-        errorLocal.textContent="El campo no puede estar vacío";
-        errorLocal.style.color="red";
-        local.style.border="red solid 1px";
+    } else if (local.validity.valueMissign) {
+        errorLocal.textContent = "El campo no puede estar vacío";
+        errorLocal.style.color = "red";
+        local.style.border = "red solid 1px";
         continuar = false;
-    } else{
-        errorLocal.textContent="";
-        local.style.border="green solid 1px";
+    } else {
+        errorLocal.textContent = "";
+        local.style.border = "green solid 1px";
     }
 
 
 }
 
-var errorAddress=document.getElementById("errorAddress");
-var address=document.getElementById("address");
-address.addEventListener('input', ()=> {
+var errorAddress = document.getElementById("errorAddress");
+var address = document.getElementById("address");
+address.addEventListener('input', () => {
     addressFunct();
 })
 
-function addressFunct(){
+function addressFunct() {
     if (address.validity.valueMissing) {
         errorAddress.textContent = "El campo no puede estar vacio";
         errorAddress.style = "color: red";
         address.style = "border: red solid 1px";
         continuar = false;
 
-    }else if(address.validity.valueMissign){
-        errorAddress.textContent="El campo no puede estar vacío";
-        errorAddress.style.color="red";
-        address.style.border="red solid 1px";
+    } else if (address.validity.valueMissign) {
+        errorAddress.textContent = "El campo no puede estar vacío";
+        errorAddress.style.color = "red";
+        address.style.border = "red solid 1px";
         continuar = false;
-    } else{
-        errorAddress.textContent="";
-        address.style.border="green solid 1px";
+    } else {
+        errorAddress.textContent = "";
+        address.style.border = "green solid 1px";
     }
 
 
 }
 
-var anadir=document.getElementById("anade");
-anadir.addEventListener('click', ()=>{
+var anadir = document.getElementById("anade");
+anadir.addEventListener('click', () => {
     iniciarFormulario();
 })
 
-function iniciarFormulario(){
-    continuar=true;
+function iniciarFormulario() {
+    continuar = true;
     telefono();
     nombreTiendaFunct();
     localFunct();
     addressFunct();
-    if(continuar){
+    if (continuar) {
         console.log("todo bien");
         anadirABaseDatos();
     }
 }
 
-function anadirABaseDatos(){
-    var nuevaTienda={nombreTienda:nombreTienda.value, direccion:address.value, localidad: local.value, telefono:tlf.value}
+function anadirABaseDatos() {
+    var nuevaTienda = { nombreTienda: nombreTienda.value, direccion: address.value, localidad: local.value, telefono: tlf.value }
     if (ajax == "XHR") {
         XHRPOST(nuevaTienda);
     } else if (ajax == "Fetch") {
@@ -309,27 +343,27 @@ function anadirABaseDatos(){
 
 }
 
-async function FetchPOST(nuevaTienda){
+async function FetchPOST(nuevaTienda) {
     await fetch("https://webapp-210130211157.azurewebsites.net/webresources/mitienda/",
-    {
-        headers: {      
-          'Content-Type': 'application/json'
-        },
-        method: "POST",
-        body: JSON.stringify(nuevaTienda)
-    })
-    .catch(MensajeError => console.log(MensajeError));
+        {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify(nuevaTienda)
+        })
+        .catch(MensajeError => console.log(MensajeError));
 }
 
 async function jQueryPOST(nuevaTienda) {
     await $.ajax({
-      url: 'https://webapp-210130211157.azurewebsites.net/webresources/mitienda/',
-      type: 'POST',
-      contentType: 'application/json',
-      data: JSON.stringify(nuevaTienda),
-      dataType: 'json'
-      });
-      alert("json posted!");
+        url: 'https://webapp-210130211157.azurewebsites.net/webresources/mitienda/',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(nuevaTienda),
+        dataType: 'json'
+    });
+    alert("json posted!");
 }
 
 async function XHRPOST(nuevaTienda) {
