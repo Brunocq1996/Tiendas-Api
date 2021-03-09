@@ -131,6 +131,13 @@ body{
                     justify-content: center;
                     align-content: center;
                     height: 30px;
+                    #buscaComprueba{
+                        #idTienda{
+                            &:focus{
+                                outline: none;
+                            }
+                        }
+                    }
                     #botonBuscar{
                         @include botonesBusca();
                     }
@@ -200,12 +207,6 @@ body{
     }
 
 }
-
-
-
-
-
-
 
 
 #loadingButton{

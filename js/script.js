@@ -5,7 +5,7 @@ document.querySelectorAll('.boton').forEach(item => {
     })
 })
 var ajax;
-var aBuscar=false;
+var aBuscar = false;
 function ocultar(event) {
     var pantallaPrincipal = document.getElementById("pantallaPrincipal");
     pantallaPrincipal.style.display = "none";
@@ -30,7 +30,7 @@ async function XHRGET(valor) {
     const consulta = new XMLHttpRequest();
     if ((valor != null) && (valor != "")) {
         consulta.open('GET', 'https://webapp-210130211157.azurewebsites.net/webresources/mitienda/' + valor, true)
-        aBuscar=true;
+        aBuscar = true;
     } else {
         consulta.open('GET', 'https://webapp-210130211157.azurewebsites.net/webresources/mitienda/', true)
     }
@@ -40,8 +40,8 @@ async function XHRGET(valor) {
             if (consulta.status == 200) {
 
 
-                
-                if(aBuscar){
+
+                if (aBuscar) {
                     while (lugarBusca.firstChild) {
                         lugarBusca.removeChild(lugarBusca.firstChild);
                     }
@@ -51,7 +51,7 @@ async function XHRGET(valor) {
                     document.getElementsByTagName("img")[1].style.display = "none";
                     lista.style.display = "none"
                 }
-                
+
                 var datos = JSON.parse(consulta.responseText);
                 spinner.style.display = "none";
                 crearLista(datos);
@@ -77,11 +77,11 @@ async function jQuery(valor) {
     try {
         if ((valor != null) && (valor != "")) {
             var datos = await getJquery('https://webapp-210130211157.azurewebsites.net/webresources/mitienda/' + valor)
-            aBuscar=true;
+            aBuscar = true;
         } else {
             var datos = await getJquery('https://webapp-210130211157.azurewebsites.net/webresources/mitienda/')
         }
-        if(aBuscar){
+        if (aBuscar) {
             while (lugarBusca.firstChild) {
                 lugarBusca.removeChild(lugarBusca.firstChild);
             }
@@ -105,7 +105,7 @@ async function Fetch(valor) {
 
     if ((valor != null) && (valor != "")) {
         enlace = "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/" + valor;
-        aBuscar=true;
+        aBuscar = true;
     } else {
         enlace = "https://webapp-210130211157.azurewebsites.net/webresources/mitienda/";
     }
@@ -114,8 +114,8 @@ async function Fetch(valor) {
         .then(response => response.text())
         .then(datosSinJson => {
             var datos = JSON.parse(datosSinJson)
-           
-            if(aBuscar){
+
+            if (aBuscar) {
                 while (lugarBusca.firstChild) {
                     lugarBusca.removeChild(lugarBusca.firstChild);
                 }
@@ -180,18 +180,43 @@ function crearLista(datos) {
     var botonBuscar = document.getElementById("botonBuscar");
     botonBuscar.addEventListener('click', () => recogerTienda(event))
 }
+var idTienda = document.getElementById("idTienda");
+var errorBuscador = document.getElementById("errorBuscador");
+function buscador() {
+    var continuarBuscando=true;
+    if (idTienda.validity.valueMissing) {
+        errorBuscador.textContent = "El campo no puede estar vacio";
+        errorBuscador.style = "color: red";
+        idTienda.style = "border: red solid 1px";
+        continuarBuscando = false;
+
+    } else if (idTienda.validity.patternMismatch) {
+        errorBuscador.textContent = "El campo solo puede contener numeros";
+        errorBuscador.style.color = "red";
+        idTienda.style.border = "red solid 1px";
+        continuarBuscando = false;
+    } else {
+        errorBuscador.textContent = "";
+        idTienda.style.border = "green solid 1px";
+    }
+
+    return(continuarBuscando);
+
+}
 console.log(document.getElementsByTagName("img")[1]);
 function recogerTienda(event) {
-    var valor = idTienda.value;
-    event.target.disabled=true;
-    document.getElementsByTagName("svg")[0].style.display = "none";
-    document.getElementsByTagName("img")[1].style.display = "block";    
-    if (ajax == "XHR") {
-        XHRGET(valor);
-    } else if (ajax == "Fetch") {
-        Fetch(valor);
-    } else {
-        jQuery(valor);
+    if (buscador()) {
+        var valor = idTienda.value;
+        event.target.disabled = true;
+        document.getElementsByTagName("svg")[0].style.display = "none";
+        document.getElementsByTagName("img")[1].style.display = "block";
+        if (ajax == "XHR") {
+            XHRGET(valor);
+        } else if (ajax == "Fetch") {
+            Fetch(valor);
+        } else {
+            jQuery(valor);
+        }
     }
 
 
@@ -200,7 +225,7 @@ var quitarBusca = document.getElementById("botonX")
 quitarBusca.addEventListener('click', () => volverLista())
 
 function volverLista() {
-    botonBuscar.disabled=false;
+    botonBuscar.disabled = false;
     botonBuscar.style.display = "block";
     botonX.style.display = "none";
     lista.style.display = "flex";
@@ -316,10 +341,10 @@ function addressFunct() {
 
 var anadir = document.getElementById("anade");
 anadir.addEventListener('click', () => {
-    iniciarFormulario();
+    iniciarFormulario(event);
 })
 
-function iniciarFormulario() {
+function iniciarFormulario(event) {
     continuar = true;
     telefono();
     nombreTiendaFunct();
@@ -328,6 +353,8 @@ function iniciarFormulario() {
     if (continuar) {
         console.log("todo bien");
         anadirABaseDatos();
+    } else {
+        event.preventDefault();
     }
 }
 

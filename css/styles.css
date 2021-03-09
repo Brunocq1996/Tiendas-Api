@@ -93,6 +93,8 @@ body {
           justify-content: center;
           align-content: center;
           height: 30px; }
+          body main #buscadorLista #parteMenu #buscar #buscaComprueba #idTienda:focus {
+            outline: none; }
           body main #buscadorLista #parteMenu #buscar #botonBuscar {
             border: #23470b 1px solid;
             color: #23470b;
