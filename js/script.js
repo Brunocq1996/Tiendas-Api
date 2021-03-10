@@ -345,6 +345,7 @@ anadir.addEventListener('click', () => {
 })
 
 function iniciarFormulario(event) {
+    event.preventDefault();
     continuar = true;
     telefono();
     nombreTiendaFunct();
@@ -352,9 +353,9 @@ function iniciarFormulario(event) {
     addressFunct();
     if (continuar) {
         console.log("todo bien");
+        
         anadirABaseDatos();
-    } else {
-        event.preventDefault();
+        document.getElementsByTagName("form")[0].reset();
     }
 }
 
